@@ -19,7 +19,7 @@ function InvoiceForm() {
                   </label>
                   <input
                     type="date"
-                    className="w-[100px] px-2 py-0.5 border border-gray-300 rounded bg-main text-sm"
+                    className="w-[100px] md:w-[150px] px-2 py-0.5 border border-gray-300 rounded bg-main text-sm"
                   />
                 </div>
                 <div className=" flex items-center gap-3">
@@ -104,25 +104,48 @@ function InvoiceForm() {
 
             {/* Items Table - You can expand this section */}
 
-              <Items />
-            {/* Items Table - You can expand this section */}
+            <Items />
             
-            <div className="bg-white p-6 rounded-lg shadow-md">
+            {/* Checkout -  */}
+            
+            <div className="py-6 rounded-lg">
               <h3 className="font-medium text-gray-800 mb-4">
                 Invoice Summary
               </h3>
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Subtotal:</span>
-                  <span>$0.00</span>
+                  <span>₹ 0.00</span>
                 </div>
-                <div className="flex justify-between">
+                <div className="flex justify-between items-center">
                   <span className="text-gray-600">Tax:</span>
-                  <span>$0.00</span>
+                  <div className="border border-gray-300 rounded-md px-1">
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    defaultValue="0"
+                    className="max-w-15 text-right py-2 focus:outline-none text-sm"
+                    />
+                    <span>%</span>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-gray-600">Discount:</span>
+                  <div className="border border-gray-300 rounded-md px-1">
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    defaultValue="0"
+                    className="max-w-15 text-right py-2 focus:outline-none text-sm"
+                    />
+                    <span>%</span>
+                  </div>
                 </div>
                 <div className="flex justify-between font-bold border-t pt-2">
                   <span>Total:</span>
-                  <span>$0.00</span>
+                  <span>₹ 0.00</span>
                 </div>
               </div>
             </div>
@@ -130,25 +153,12 @@ function InvoiceForm() {
         </section>
 
         {/* -------------------------------- Actions Sidebar ----------------------------------------------*/}
-        <section className="lg:w-80 space-y-4">
+        <section className="lg:w-80 pb-10 p-5">
           {/* Print Invoice Button */}
           <div className=" rounded-lg  border border-gray-100">
             <button className="w-full bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-md font-medium transition-colors duration-200 shadow-sm">
               Print Invoice
             </button>
-          </div>
-
-          {/* Currency Selector */}
-          <div className="rounded border border-gray-100">
-            <select
-              name="currency"
-              id="currency"
-              className="w-full border bg-white border-gray-500 rounded-md py-2.5 px-5 text-sm focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary transition-colors cursor-pointer"
-            >
-              <option value="USD">USD (United States Dollar)</option>
-              <option value="INR">INR (Indian Rupee)</option>
-              <option value="JPY">JPY (Japanese Yen)</option>
-            </select>
           </div>
         </section>
       </div>
