@@ -5,12 +5,12 @@ function InvoiceForm() {
   return (
     <div className="w-full min-h-screen bg-gray-50 p-2 sm:p-6 md:p-8 lg:p-10">
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-6">
-        {/* Main Form Section */}
+        {/* -------------------------------- Main Form Section ----------------------------------------------*/}
         <section className="bg-white p-6 sm:p-8 md:p-10 rounded-lg shadow-md flex-1">
           <h2 className="text-2xl font-bold text-gray-500 mb-6">Invoice</h2>
 
           <form className="space-y-8">
-            {/* Date Section */}
+            {/* Date and Invoice Number Section */}
             <div className="flex justify-between items-start border-b border-gray-300 pb-5">
               <div className="flex flex-col gap-5">
                 <div className=" flex items-center gap-3">
@@ -45,7 +45,7 @@ function InvoiceForm() {
               </div>
             </div>
 
-            {/* Add more form fields here */}
+            {/* -------------------------------- Billing Information ----------------------------------------------*/}
             <div className="w-full border-b pb-5 border-gray-300">
               <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-8">
                 {/* Bill to */}
@@ -59,13 +59,11 @@ function InvoiceForm() {
                       placeholder="Client/Company name"
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
                     />
-                    <div className="relative">
-                      <input
-                        type="email"
-                        placeholder="client@example.com"
-                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
-                      />
-                    </div>
+                    <input
+                      type="email"
+                      placeholder="client@example.com"
+                      className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
+                    />
                     <textarea
                       placeholder="Street address, City, State, ZIP"
                       rows={3}
@@ -85,13 +83,11 @@ function InvoiceForm() {
                       placeholder="Your/Company name"
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
                     />
-                    <div className="relative">
-                      <input
-                        type="email"
-                        placeholder="your@example.com"
-                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
-                      />
-                    </div>
+                    <input
+                      type="email"
+                      placeholder="your@example.com"
+                      className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
+                    />
                     <textarea
                       placeholder="Street address, City, State, ZIP"
                       rows={3}
@@ -102,50 +98,53 @@ function InvoiceForm() {
               </div>
             </div>
 
-            {/* Items Table - You can expand this section */}
-
+            {/* -------------------------------- Items Table Section ----------------------------------------------*/}
             <Items />
-            
-            {/* Checkout -  */}
-            
-            <div className="py-6 rounded-lg">
-              <h3 className="font-medium text-gray-800 mb-4">
-                Invoice Summary
-              </h3>
-              <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Subtotal:</span>
-                  <span>₹ 0.00</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Tax:</span>
-                  <div className="border border-gray-300 rounded-md px-1">
-                  <input
-                    type="number"
-                    min="0"
-                    step="1"
-                    defaultValue="0"
-                    className="max-w-15 text-right py-2 focus:outline-none text-sm"
-                    />
-                    <span>%</span>
+
+            {/* -------------------------------- Invoice Summary ----------------------------------------------*/}
+            <div className="w-full md:flex justify-end">
+              <div className="md:w-[300px] py-6 rounded-lg">
+                <h3 className="font-medium text-gray-800 mb-4">
+                  Invoice Summary
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Subtotal:</span>
+                    <span>₹ 0.00</span>
                   </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Discount:</span>
-                  <div className="border border-gray-300 rounded-md px-1">
-                  <input
-                    type="number"
-                    min="0"
-                    step="1"
-                    defaultValue="0"
-                    className="max-w-15 text-right py-2 focus:outline-none text-sm"
-                    />
-                    <span>%</span>
+
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Tax:</span>
+                    <div className="flex items-center gap-1 border border-gray-300 rounded-md px-2 py-1">
+                      <input
+                        type="number"
+                        min="0"
+                        step="1"
+                        defaultValue="0"
+                        className="w-12 text-right focus:outline-none text-sm bg-transparent"
+                      />
+                      <span>%</span>
+                    </div>
                   </div>
-                </div>
-                <div className="flex justify-between font-bold border-t pt-2">
-                  <span>Total:</span>
-                  <span>₹ 0.00</span>
+
+                  <div className="flex justify-between items-center">
+                    <span className="text-gray-600">Discount:</span>
+                    <div className="flex items-center gap-1 border border-gray-300 rounded-md px-2 py-1">
+                      <input
+                        type="number"
+                        min="0"
+                        step="1"
+                        defaultValue="0"
+                        className="w-12 text-right focus:outline-none text-sm bg-transparent"
+                      />
+                      <span>%</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between font-bold border-t pt-2 text-lg">
+                    <span>Total:</span>
+                    <span>₹ 0.00</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -153,10 +152,24 @@ function InvoiceForm() {
         </section>
 
         {/* -------------------------------- Actions Sidebar ----------------------------------------------*/}
-        <section className="lg:w-80 pb-10 p-5">
-          {/* Print Invoice Button */}
-          <div className=" rounded-lg  border border-gray-100">
-            <button className="w-full bg-primary hover:bg-primary/90 text-white px-4 py-3 rounded-md font-medium transition-colors duration-200 shadow-sm">
+        <section className="lg:w-80 space-y-4 mb-10">
+          <div className="p-4 cursor-pointer">
+            <button
+              type="submit"
+              className="w-full bg-primary hover:bg-primary-dark text-white px-4 py-3 rounded-md font-medium transition-colors flex items-center justify-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z"
+                  clipRule="evenodd"
+                />
+              </svg>
               Print Invoice
             </button>
           </div>
