@@ -156,7 +156,7 @@ function InvoiceForm() {
           <div className="p-4 cursor-pointer">
             <button
               type="submit"
-              className="w-full bg-primary hover:bg-primary-dark text-white px-4 py-3 rounded-md font-medium transition-colors flex items-center justify-center gap-2"
+              className="w-full bg-primary hover:bg-primary-dark text-white px-4 py-3 rounded-md font-medium transition-colors flex items-center justify-center gap-2 outline-0 cursor-pointer"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

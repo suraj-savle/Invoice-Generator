@@ -8,6 +8,7 @@ function Home() {
     <>
       <Header />
       <InvoiceForm />
+      <Footer />
     </>
   );
 }
