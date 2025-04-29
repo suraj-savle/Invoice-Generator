@@ -1,17 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
+import { useInvoice } from "../context/InvoiceContext";
 
 function Items() {
-  const [items, setItems] = useState([1, 2]);
-
-  const handleAddItem = () => {
-    setItems([...items, items.length + 1]);
-  };
-
-  const handleRemoveItem = (index) => {
-    const newItems = items.filter((_, i) => i !== index);
-    setItems(newItems);
-  };
+  const { 
+    invoiceData, 
+    addItem, 
+    updateItem, 
+    removeItem 
+  } = useInvoice();
 
   return (
     <div className="space-y-3">
@@ -23,7 +20,7 @@ function Items() {
                 Items
               </th>
               <th className="px-1 md:px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
-                QYT
+                QTY
               </th>
               <th className="px-2 md:px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">
                 Price
@@ -34,11 +31,13 @@ function Items() {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200 bg-white">
-            {items.map((item, index) => (
-              <tr key={index}>
+            {invoiceData.items.map((item) => (
+              <tr key={item.id}>
                 <td className="px-1 py-3">
                   <input
                     type="text"
+                    value={item.itemname}
+                    onChange={(e) => updateItem(item.id, "itemname", e.target.value)}
                     placeholder="Item description"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm bg-gray-50"
                   />
@@ -47,7 +46,8 @@ function Items() {
                   <input
                     type="number"
                     min="1"
-                    defaultValue="1"
+                    value={item.quantity}
+                    onChange={(e) => updateItem(item.id, "quantity", e.target.value)}
                     className="w-full text-right px-1 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm bg-gray-50"
                   />
                 </td>
@@ -55,14 +55,15 @@ function Items() {
                   <input
                     type="number"
                     min="0"
-                    step="1.00"
-                    defaultValue="1.00"
+                    step="0.01"
+                    value={item.price}
+                    onChange={(e) => updateItem(item.id, "price", e.target.value)}
                     className="w-full text-right px-1 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-sm bg-gray-50"
                   />
                 </td>
                 <td className="px-1 text-center">
                   <button 
-                    onClick={() => handleRemoveItem(index)}
+                    onClick={() => removeItem(item.id)}
                     className="cursor-pointer text-white bg-red-500 p-2 rounded hover:bg-red-600 transition-colors"
                   >
                     <FaRegTrashAlt className="w-4 h-4" />
@@ -76,7 +77,7 @@ function Items() {
       <button
         type="button"
         className="mt-2 text-sm text-white p-2 rounded bg-primary hover:bg-primary-dark font-medium flex items-center justify-center gap-1"
-        onClick={handleAddItem}
+        onClick={addItem}
       >
         <span>+</span> Add Item
       </button>
