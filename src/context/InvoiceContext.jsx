@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 
 const InvoiceContext = createContext();
 
@@ -9,23 +9,23 @@ export const InvoiceProvider = ({ children }) => {
     invoiceNumber: "",
     date: "",
     dueDate: "",
-    items: [{ id: 1, itemname: "", quantity: 1, price: 1 }],
+    items: [{ id: Date.now(), itemname: "", quantity: 1, price: 1 }],
     taxRate: 0,
     discount: 0,
   });
 
-  const updateField = (field, value) => {
+  const updateField = useCallback((field, value) => {
     setInvoiceData(prev => ({ ...prev, [field]: value }));
-  };
+  }, []);
 
-  const updateAddress = (type, field, value) => {
+  const updateAddress = useCallback((type, field, value) => {
     setInvoiceData(prev => ({
       ...prev,
       [type]: { ...prev[type], [field]: value }
     }));
-  };
+  }, []);
 
-  const addItem = () => {
+  const addItem = useCallback(() => {
     setInvoiceData(prev => ({
       ...prev,
       items: [
@@ -33,23 +33,23 @@ export const InvoiceProvider = ({ children }) => {
         { id: Date.now(), itemname: "", quantity: 1, price: 1 }
       ]
     }));
-  };
+  }, []);
 
-  const updateItem = (id, field, value) => {
+  const updateItem = useCallback((id, field, value) => {
     setInvoiceData(prev => ({
       ...prev,
       items: prev.items.map(item => 
         item.id === id ? { ...item, [field]: value } : item
       )
     }));
-  };
+  }, []);
 
-  const removeItem = (id) => {
+  const removeItem = useCallback((id) => {
     setInvoiceData(prev => ({
       ...prev,
       items: prev.items.filter(item => item.id !== id)
     }));
-  };
+  }, []);
 
   return (
     <InvoiceContext.Provider value={{
