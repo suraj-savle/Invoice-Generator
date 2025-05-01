@@ -6,8 +6,8 @@ A sleek, responsive platform for creating professional invoices with automatic c
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Invoice_Generator-brightgreen?style=for-the-badge)](https://invoice-generator-blond-mu.vercel.app/)  
 [![GitHub License](https://img.shields.io/github/license/suraj-savle/Invoice-Generator?style=for-the-badge)](LICENSE)  
-[![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)](https://reactjs.org/)  
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3-purple?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)  
+[![React](https://img.shields.io/badge/React-19-blue?style=for-the-badge&logo=react)](https://reactjs.org/)  
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.1-purple?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)  
 
 ---
 
