@@ -9,21 +9,18 @@ export default function Footer() {
         <div>
           <h4 className="font-semibold text-sm mb-4">RESOURCES</h4>
           <ul className="space-y-2 text-sm">
-            <li><a href="#" className="hover:underline hover:text-blue-600 transition-colors">Home</a></li>
-            <li><a href="#" className="hover:underline hover:text-blue-600 transition-colors">Invoicing Guide</a></li>
-            <li><a href="#" className="hover:underline hover:text-blue-600 transition-colors">Github</a></li>
+            <li><a href="/" className="hover:underline hover:text-blue-600 transition-colors">Home</a></li>
+            <li><a href="/help" className="hover:underline hover:text-blue-600 transition-colors">help</a></li>
+            <li><a href="https://github.com/suraj-savle" className="hover:underline hover:text-blue-600 transition-colors">Github</a></li>
           </ul>
         </div>
 
         <div className="flex flex-col-reverse gap-5 items-center justify-between md:col-span-2 md:items-end">
           <div className="flex gap-4">
-            <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
-              <FaFacebookF size={20} />
-            </a>
-            <a href="#" className="text-gray-600 hover:text-blue-800 transition-colors">
+            <a href="https://www.linkedin.com/in/surajsavle/" className="text-gray-600 hover:text-blue-800 transition-colors">
               <FaLinkedinIn size={20} />
             </a>
-            <a href="#" className="text-gray-600 hover:text-gray-900 transition-colors">
+            <a href="https://github.com/suraj-savle" className="text-gray-600 hover:text-gray-900 transition-colors">
               <FaGithub size={20} />
             </a>
           </div>

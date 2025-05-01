@@ -1,76 +1,49 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useInvoice } from "../context/InvoiceContext";
 import Items from "./Items";
-import { FiPrinter } from 'react-icons/fi';
-import { useReactToPrint } from 'react-to-print';
-import { PrintInvoice } from "./PrintInvoice";
+import { FiPrinter } from "react-icons/fi";
+import PrintInvoice from "./PrintInvoice";
 
 function InvoiceForm() {
   const { invoiceData, updateField, updateAddress } = useInvoice();
   const [showPrintModal, setShowPrintModal] = useState(false);
-  const printRef = useRef();
 
   // Calculate current date and set it automatically
-  useEffect(() => {
-    const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0];
-    updateField("date", formattedDate);
-  }, [updateField]);
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const day = String(today.getDate()).padStart(2, "0");
+  const formattedDate = `${day}-${month}-${year}`;
 
+  useEffect(() => {
+    updateField("date", formattedDate);
+  }, [updateField, formattedDate]);
+
+  // Calculate invoice totals
   const calculateSubtotal = () => {
-    return invoiceData.items.reduce((sum, item) => 
-      sum + (item.quantity * item.price), 0);
+    return invoiceData.items.reduce((sum, item) => {
+      const price = Number(item.price) || 0;
+      const quantity = Number(item.quantity) || 0;
+      return sum + quantity * price;
+    }, 0);
   };
 
   const calculateTotal = () => {
     const subtotal = calculateSubtotal();
-    const taxAmount = subtotal * (invoiceData.taxRate / 100);
-    const discountAmount = subtotal * (invoiceData.discount / 100);
+    const taxAmount = subtotal * (Number(invoiceData.taxRate) / 100) || 0;
+    const discountAmount = subtotal * (Number(invoiceData.discount) / 100) || 0;
     return subtotal + taxAmount - discountAmount;
   };
 
-  const handlePrint = useReactToPrint({
-    content: () => printRef.current,
-    pageStyle: `
-      @page { size: A4; margin: 10mm; }
-      @media print { body { -webkit-print-color-adjust: exact; } }
-    `
-  });
-
-  const PrintModal = ({ onClose }) => (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="relative bg-white rounded-lg max-h-[90vh] overflow-auto w-full max-w-6xl">
-        <div className="sticky top-0 bg-white p-4 border-b flex justify-between items-center">
-          <h2 className="text-xl font-bold">Invoice Preview</h2>
-          <div className="flex gap-2">
-            <button
-              onClick={handlePrint}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2"
-            >
-              <FiPrinter /> Print/Download
-            </button>
-            <button
-              onClick={onClose}
-              className="text-gray-500 hover:text-gray-700 p-2"
-            >
-              &times;
-            </button>
-          </div>
-        </div>
-        <div className="p-4">
-          <PrintInvoice ref={printRef} />
-        </div>
-      </div>
-    </div>
-  );
 
   return (
-    <div className="w-full min-h-screen bg-gray-50 p-2 sm:p-6 md:p-8 lg:p-10">
+    <div className="w-full min-h-screen bg-gray-50 p-1 sm:p-6 md:p-8 lg:p-10">
       <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-6">
+        {/* Main Form Section */}
         <section className="bg-white p-6 sm:p-8 md:p-10 rounded-lg shadow-md flex-1">
           <h2 className="text-2xl font-bold text-gray-500 mb-6">Invoice</h2>
 
-          <form className="space-y-8">
+          <form className="space-y-8" onSubmit={(e) => e.preventDefault()}>
             {/* Date and Invoice Number Section */}
             <div className="flex justify-between items-start border-b border-gray-300 pb-5">
               <div className="flex flex-col gap-5">
@@ -78,7 +51,7 @@ function InvoiceForm() {
                   <label className="block text-xs font-medium text-gray-700">
                     Current Date:
                   </label>
-                  <span>{invoiceData.date}</span>
+                  <span>{formattedDate}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <label className="block text-xs font-medium text-gray-700">
@@ -88,23 +61,21 @@ function InvoiceForm() {
                     value={invoiceData.dueDate}
                     onChange={(e) => updateField("dueDate", e.target.value)}
                     type="date"
-                    min={invoiceData.date}
-                    className="w-[125px] md:w-[150px] px-2 py-0.5 border border-gray-300 rounded bg-main text-sm"
-                    required
+                    min={formattedDate}
+                    className="w-[125px] md:w-[150px] px-1 py-0.5 border border-gray-300 rounded bg-main text-sm"
                   />
                 </div>
               </div>
 
               <div className="flex items-center mb-5 md:mt-0 gap-5">
                 <label className="block text-xs font-medium text-gray-700">
-                  Invoice #:
+                  Invoice No:
                 </label>
                 <input
                   type="number"
                   value={invoiceData.invoiceNumber}
                   onChange={(e) => updateField("invoiceNumber", e.target.value)}
-                  className="w-[40px] md:w-[60px] px-2 py-0.5 border border-gray-300 rounded-md bg-main text-sm"
-                  required
+                  className="w-[30px] md:w-[50px] px-1 py-0.5 border border-gray-300 rounded-md bg-main text-sm text-right"
                 />
               </div>
             </div>
@@ -121,7 +92,9 @@ function InvoiceForm() {
                     <input
                       type="text"
                       value={invoiceData.from.name}
-                      onChange={(e) => updateAddress("from", "name", e.target.value)}
+                      onChange={(e) =>
+                        updateAddress("from", "name", e.target.value)
+                      }
                       placeholder="Client/Company name"
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
                       required
@@ -129,14 +102,18 @@ function InvoiceForm() {
                     <input
                       type="email"
                       value={invoiceData.from.email}
-                      onChange={(e) => updateAddress("from", "email", e.target.value)}
+                      onChange={(e) =>
+                        updateAddress("from", "email", e.target.value)
+                      }
                       placeholder="client@example.com"
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
                       required
                     />
                     <textarea
                       value={invoiceData.from.add}
-                      onChange={(e) => updateAddress("from", "add", e.target.value)}
+                      onChange={(e) =>
+                        updateAddress("from", "add", e.target.value)
+                      }
                       placeholder="Street address, City, State, ZIP"
                       rows={3}
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
@@ -154,7 +131,9 @@ function InvoiceForm() {
                     <input
                       type="text"
                       value={invoiceData.to.name}
-                      onChange={(e) => updateAddress("to", "name", e.target.value)}
+                      onChange={(e) =>
+                        updateAddress("to", "name", e.target.value)
+                      }
                       placeholder="Your/Company name"
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
                       required
@@ -162,14 +141,18 @@ function InvoiceForm() {
                     <input
                       type="email"
                       value={invoiceData.to.email}
-                      onChange={(e) => updateAddress("to", "email", e.target.value)}
+                      onChange={(e) =>
+                        updateAddress("to", "email", e.target.value)
+                      }
                       placeholder="your@example.com"
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
                       required
                     />
                     <textarea
                       value={invoiceData.to.add}
-                      onChange={(e) => updateAddress("to", "add", e.target.value)}
+                      onChange={(e) =>
+                        updateAddress("to", "add", e.target.value)
+                      }
                       placeholder="Street address, City, State, ZIP"
                       rows={3}
                       className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-md outline-none focus:ring-1 focus:ring-primary text-sm"
@@ -220,7 +203,9 @@ function InvoiceForm() {
                         max="100"
                         step="0.1"
                         value={invoiceData.discount}
-                        onChange={(e) => updateField("discount", e.target.value)}
+                        onChange={(e) =>
+                          updateField("discount", e.target.value)
+                        }
                         className="w-12 text-right focus:outline-none text-sm bg-transparent"
                       />
                       <span>%</span>
@@ -234,22 +219,30 @@ function InvoiceForm() {
                 </div>
               </div>
             </div>
-
-            {/* Print Button */}
-            <div className="mt-8 flex justify-end">
-              <button
-                type="button"
-                onClick={() => setShowPrintModal(true)}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded flex items-center gap-2"
-              >
-                <FiPrinter /> View/Print Invoice
-              </button>
-            </div>
           </form>
+        </section>
+
+        {/* Actions Sidebar */}
+        <section className="lg:w-80 space-y-4 mb-10">
+          <div className="p-4 cursor-pointer">
+            <button
+              type="button"
+              onClick={() => setShowPrintModal(true)}
+              className="w-full bg-primary hover:bg-primary-dark text-white px-4 py-3 rounded-md font-medium transition-colors flex items-center justify-center gap-2 outline-0 cursor-pointer"
+            >
+              <FiPrinter className="h-5 w-5" />
+              Print Invoice
+            </button>
+          </div>
         </section>
       </div>
 
-      {showPrintModal && <PrintModal onClose={() => setShowPrintModal(false)} />}
+      {showPrintModal && (
+        <PrintInvoice
+          isModal
+          onClose={() => setShowPrintModal(false)}
+        />
+      )}
     </div>
   );
 }
