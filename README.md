@@ -48,6 +48,6 @@ A sleek, responsive platform for creating professional invoices with automatic c
 1. Clone the repository  
    ```bash
    git clone https://github.com/suraj-savle/Invoice-Generator.git
-2. cd Invoice-Generator
+2. cd Invoice
 3. npm install
 4. npm run dev
