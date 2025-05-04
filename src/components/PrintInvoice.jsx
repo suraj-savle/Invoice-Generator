@@ -111,17 +111,17 @@ const InvoiceContent = ({
     </div>
 
     {/* From & To using flex */}
-    <div className="flex justify-between mb-6 print:flex-col">
+    <div className="flex justify-between mb-6 print:flex-col-reverse">
       <div>
-        <h2 className="font-semibold mb-1">Bill From:</h2>
-        <p>{invoiceData.from.name || "Suraj"}</p>
-        <p>{invoiceData.from.email || "Suraj@gmail.com"}</p>
+        <h2 className="font-semibold mb-1">Bill TO:</h2>
+        <p>{invoiceData.from.name || "Unknown"}</p>
+        <p>{invoiceData.from.email || "unknown@gmail.com"}</p>
         <p className="whitespace-pre-line">{invoiceData.from.add}</p>
       </div>
       <div className="text-right">
-        <h2 className="font-semibold mb-1">Bill To:</h2>
-        <p>{invoiceData.to.name || "unknown"}</p>
-        <p>{invoiceData.to.email}</p>
+        <h2 className="font-semibold mb-1">Bill From:</h2>
+        <p>{invoiceData.to.name || "InvoiceGenerator"}</p>
+        <p>{invoiceData.to.email || "InvoiceGenerator@gamil.com"}</p>
         <p className="whitespace-pre-line">{invoiceData.to.add}</p>
       </div>
     </div>
